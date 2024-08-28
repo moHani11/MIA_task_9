@@ -1,0 +1,14 @@
+FROM ros:noetic
+
+RUN apt-get update && apt-get install -y python3-pip 
+
+RUN mkdir -p /root/catkin_ws/src
+
+RUN cd /root/catkin_ws/src &&\
+        catkin_create_pkg sub_pub_package rospy std_msgs
+
+COPY scripts /root/catkin_ws/src/sub_pub_package/scripts
+
+RUN cd /root/catkin_ws && /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
+
+RUN echo "source /root/catkin_ws/devel/setup.bash" >> /root/.bashrc
